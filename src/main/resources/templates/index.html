@@ -19,8 +19,8 @@
         <thead>
         <tr>
             <th>Дата</th>
-            <th>До еды, mmol/l</th>
-            <th>После еды (2 часа), mmol/l</th>
+            <th>Уровень сахара, mmol/l</th>
+            <th>Вид измерения</th>
             <th>Комментарий</th>
             <th>Действие</th>
         </tr>
@@ -30,8 +30,8 @@
             <!-- форматирование вывода даты -->
             <td th:text="${#temporals.format(employee.date, 'dd MMMM yyyy, HH:mm')}"></td>
             <!-- -------------------------- -->
-            <td th:text="${employee.beforeMeals}"></td>
-            <td th:text="${employee.afterMeals}"></td>
+            <td th:text="${employee.sugarLevel}"></td>
+            <td th:text="${employee.measuringType}"></td>
             <td th:text="${employee.comment}"></td>
             <td> <a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}" class="btn btn-primary">Изменить</a>
                 <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">Удалить</a>

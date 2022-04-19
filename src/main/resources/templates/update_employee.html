@@ -21,9 +21,16 @@
 
         <input type="datetime-local" th:field="*{date}" class="form-control mb-4 col-4">
 
-        <input type="number" th:field="*{beforeMeals}" step="0.1" min="0" max="35" class="form-control mb-4 col-4" required>
+        <input type="number" th:field="*{sugarLevel}" step="0.1" min="0" max="35" class="form-control mb-4 col-4" required>
 
-        <input type="number" th:field="*{afterMeals}" step="0.1" min="0" max="35" class="form-control mb-4 col-4" required>
+        <input type="text" th:field="*{measuringType}" list="measuringType_id" class="form-control mb-4 col-4" required>
+        <datalist id="measuringType_id">
+            <option value="До еды">
+            <option value="После еды (1 час)">
+            <option value="После еды (2 часа)">
+            <option value="Сон">
+            <option value="Голодание">
+        </datalist>
 
         <input type="text" th:field="*{comment}" placeholder="Комментарий" class="form-control mb-4 col-4">
 

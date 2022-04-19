@@ -25,12 +25,12 @@ public class Employee  {
     private LocalDateTime date;
 
     @NonNull
-    @Column(name = "before_meals")
-    private Float beforeMeals;
+    @Column(name = "sugar_level")
+    private Float sugarLevel;
 
     @NonNull
-    @Column(name = "after_meals")
-    private Float afterMeals;
+    @Column(name = "measuring_type")
+    private String measuringType;
 
     @Column(name = "comment")
     private String comment;
