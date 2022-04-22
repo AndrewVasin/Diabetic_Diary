@@ -16,7 +16,7 @@ public class SugarLevelController {
     @Autowired
     private SugarLevelService sugarLevelService;
 
-    // display list of employees
+    // display list of sugar level
     @GetMapping("/")
     public String viewHomePage(Model model) {
         model.addAttribute("listSugarLevelRecord", sugarLevelService.getAllSugarLevelRecord());
