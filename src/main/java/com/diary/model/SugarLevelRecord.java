@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "glycemia")
-public class Employee  {
+public class SugarLevelRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
