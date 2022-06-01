@@ -6,6 +6,14 @@
     <title>Добавить новое значение</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<!--    <link rel="stylesheet" type="text/css" href="style.css">-->
+    <style>
+        .sugar {
+            margin-top: -20px;
+            margin-bottom: 20px;
+            color: red;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,10 +25,13 @@
     <form action="#" th:action="@{/saveSugarLevelRecord}" th:object="${sugarLevelRecord}" method="POST">
 
         <input type="datetime-local" th:field="*{date}" class="form-control mb-4 col-4" required>
+        <div class="sugar" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Ошибка</div>
 
-        <input type="number" th:field="*{sugarLevel}" placeholder="Уровень сахара" step="0.1" min="0" max="35" class="form-control mb-4 col-4" required>
+        <input type="number" th:field="*{sugarLevel}" placeholder="Уровень сахара" step="0.1" min="-10" max="40" class="form-control mb-4 col-4" required>
+        <div class="sugar" th:if="${#fields.hasErrors('sugarLevel')}" th:errors="*{sugarLevel}">Ошибка</div>
 
         <input type="text" th:field="*{measuringType}" list="measuringType_id" placeholder="Вид измерения" class="form-control mb-4 col-4" required>
+        <div class="sugar" th:if="${#fields.hasErrors('measuringType')}" th:errors="*{measuringType}">Ошибка</div>
         <datalist id="measuringType_id">
             <option value="До еды">
             <option value="После еды (1 час)">
@@ -30,6 +41,7 @@
         </datalist>
 
         <input type="text" th:field="*{comment}" placeholder="Комментарий" class="form-control mb-4 col-4">
+        <div class="sugar" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">Ошибка</div>
 
         <button type="submit" class="btn btn-info col-2">Сохранить данные</button>
     </form>
