@@ -1,7 +1,8 @@
-package com.diary.service;
+package com.diary.service.impl;
 
 import com.diary.model.SugarLevelRecord;
 import com.diary.repository.SugarLevelRepository;
+import com.diary.service.SugarLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

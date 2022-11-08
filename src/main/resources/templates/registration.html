@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru-ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Регистрация</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/img/sugar.png">
+</head>
+<body>
+<div class="container">
+  <h2>Please Sign Up!</h2>
+  <form action="/registration" method="post" th:object="${user}">
+    <div class="form-group">
+      <label for="firstname">Firstname:</label>
+      <input type="text" class="form-control" id="firstname" placeholder="Enter firstname" th:field="*{firstName}">
+      <small class="text-danger" th:if="${#fields.errors('firstname')}" th:text="${firstName}"></small>
+    </div>
+    <div class="form-group">
+      <label for="lastname">Lastname:</label>
+      <input type="text" class="form-control" id="lastname" placeholder="Enter lastname" th:field="*{lastName}">
+      <small class="text-danger" th:if="${#fields.errors('lastname')}" th:text="${lastName}"></small>
+    </div>
+    <div class="form-group">
+      <label for="login">Login:</label>
+      <input type="text" class="form-control" id="login" placeholder="Enter login" th:field="*{login}">
+      <small class="text-danger" th:if="${#fields.errors('login')}" th:text="${login}"></small>
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control" id="password" placeholder="Enter password" th:field="*{passwordHash}">
+      <small class="text-danger" th:if="${#fields.errors('password')}" th:text="${passwordHash}"></small>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" th:field="*{email}">
+      <small class="text-danger" th:if="${#fields.errors('email')}" th:text="${email}"></small>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+</div>
+</body>
+</html>

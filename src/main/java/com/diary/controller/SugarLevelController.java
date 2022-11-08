@@ -23,7 +23,7 @@ public class SugarLevelController {
     @GetMapping("/")
     public String viewHomePage(Model model) {
         model.addAttribute("listSugarLevelRecord", sugarLevelService.getAllSugarLevelRecord());
-        return "index";
+        return "main";
     }
 
     @GetMapping("/showNewSugarLevelRecordForm")

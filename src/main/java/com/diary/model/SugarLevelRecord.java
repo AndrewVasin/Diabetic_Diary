@@ -20,7 +20,6 @@ public class SugarLevelRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //@NonNull
     @NotEmpty(message = "Пожалуйста, введите дату и время")
     // форматирование ввода даты для html-кода <input type="datetime-local"...
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
@@ -40,4 +39,8 @@ public class SugarLevelRecord {
     @Size(max = 255, message = "Длина коментария не должна превышать 255 символов")
     @Column(name = "comment")
     private String comment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
