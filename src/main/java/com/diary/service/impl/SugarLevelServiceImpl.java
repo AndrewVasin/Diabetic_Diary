@@ -28,13 +28,13 @@ public class SugarLevelServiceImpl implements SugarLevelService {
     @Override
     public SugarLevelRecord getSugarLevelRecordById(long id) {
         Optional<SugarLevelRecord> optional = sugarLevelRepository.findById(id);
-        SugarLevelRecord SugarLevelRecord;
+        SugarLevelRecord sugarLevelRecord;
         if (optional.isPresent()) {
-            SugarLevelRecord = optional.get();
+            sugarLevelRecord = optional.get();
         } else {
             throw new RuntimeException(" Record not found for id :: " + id);
         }
-        return SugarLevelRecord;
+        return sugarLevelRecord;
     }
 
     @Override

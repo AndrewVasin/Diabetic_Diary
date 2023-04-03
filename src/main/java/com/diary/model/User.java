@@ -1,8 +1,14 @@
 package com.diary.model;
 
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Аккаунт пользователя
@@ -14,15 +20,19 @@ import javax.persistence.*;
  * email - почта
  * login - логин
  * passwordHash - хеш пароля
- * privileges - привилегии (админ/пользователь)
+ * userRole - привилегии (админ/пользователь)
  * isActive - статус учетной записи пользователя (активна/не активна)
  */
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "users")
-public class User {
-    public static Byte PRIVILEGES_ADMIN  = (byte) 100;
-    public static Byte PRIVILEGES_COMMON = (byte) 0;
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -40,112 +50,52 @@ public class User {
     private String login;
 
     @Column(name = "password_hash", length = 64, nullable = false, unique = true)
-    private String passwordHash;
+    private String password;
 
-    @Column(name = "privileges", nullable = false)
-    private Byte privileges;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role", length = 12, nullable = false)
+    private UserRole userRole;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    public User(
-            final String  login,
-            final String  password,
-            final String  email,
-            final String  lastName,
-            final String  firstName,
-            final Byte    privileges,
-            final Boolean isActive
-    ) {
-        this.id           = null;
-        this.login        = login;
-        this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
-        this.email        = email;
-        this.lastName     = lastName;
-        this.firstName    = firstName;
-        this.privileges   = privileges;
-        this.isActive     = isActive;
+    // сеттер пароля
+    public void setPassword(String password) {
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    public User() {}
-
-    // геттер Id
-    public Integer getId() {
-        return this.id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
-    // геттер логина
-    public String getLogin() {
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
         return this.login;
     }
 
-    // сеттер логина
-    public void setLogin(final String login) {
-        this.login = login;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    // геттер хэша пароля
-    public String getPasswordHash() {
-        return this.passwordHash;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    // сеттер пароля
-    public void setPassword(final String password) {
-        this.passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    // проверка соответствия пароля
-    public boolean isValidPassword(final String password) {
-        return BCrypt.checkpw(password, this.passwordHash);
-    }
-
-    // геттер email
-    public String getEmail() {
-        return this.email;
-    }
-
-    // сеттер email
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
-    // геттер имени
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    // сеттер имени
-    public void setFirstName(final String firstName) {
-        this.firstName = firstName;
-    }
-
-    // геттер фамилии
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    // сеттер фамилии
-    public void setLastName(final String lastName) {
-        this.lastName = lastName;
-    }
-
-    // геттер привилегий
-    public Byte getPrivileges() {
-        return this.privileges;
-    }
-
-    // сеттер привилегий
-    public void setPrivileges(final Byte privileges) {
-        this.privileges = privileges;
-    }
-
-    // геттер статуса учетной записи
-    public Boolean getIsActive() {
-        return this.isActive;
-    }
-
-    // сеттер статуса учетной записи
-    public void setIsActive(final Boolean isActive) {
-        this.isActive = isActive;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
