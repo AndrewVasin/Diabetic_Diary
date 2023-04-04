@@ -16,12 +16,22 @@ import javax.validation.Valid;
 @Controller
 public class SugarLevelController {
 
+    public final String TITLE = "title";
+    public final String TITLE_MAIN = "Дневник | Сахарный диабет";
+
     @Autowired
     private SugarLevelService sugarLevelService;
+
+    @GetMapping("/index")
+    public String viewIndexPage(Model model) {
+        model.addAttribute(TITLE, TITLE_MAIN);
+        return "index";
+    }
 
     // display list of sugar level
     @GetMapping("/level")
     public String viewHomePage(Model model) {
+        model.addAttribute(TITLE, TITLE_MAIN);
         model.addAttribute("listSugarLevelRecord", sugarLevelService.getAllSugarLevelRecord());
         return "main";
     }
