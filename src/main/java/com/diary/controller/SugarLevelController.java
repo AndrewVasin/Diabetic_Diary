@@ -20,7 +20,7 @@ public class SugarLevelController {
     private SugarLevelService sugarLevelService;
 
     // display list of sugar level
-    @GetMapping("/")
+    @GetMapping("/level")
     public String viewHomePage(Model model) {
         model.addAttribute("listSugarLevelRecord", sugarLevelService.getAllSugarLevelRecord());
         return "main";
@@ -43,7 +43,7 @@ public class SugarLevelController {
         // save sugarLevelRecord to database
         sugarLevelService.saveSugarLevelRecord(sugarLevelRecord);
 
-        return "redirect:/";
+        return "redirect:/level";
     }
 
     @GetMapping("/showFormForUpdate/{id}")
