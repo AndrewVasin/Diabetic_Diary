@@ -36,7 +36,7 @@ public class SugarLevelRecord {
     @Column(name = "measuring_type")
     private String measuringType;
 
-    @Size(max = 255, message = "Длина коментария не должна превышать 255 символов")
+    @Size(max = 255, message = "Длина комментария не должна превышать 255 символов")
     @Column(name = "comment")
     private String comment;
 
