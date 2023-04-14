@@ -1,37 +1,40 @@
-package com.diary.service;
+package com.diary.config;
 
 import com.diary.service.impl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     private final UserServiceImpl userService;
 
+    @Autowired
     public WebSecurityConfig(UserServiceImpl userService) {
         this.userService = userService;
     }
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        return http
                 .authorizeRequests()
-                    .antMatchers("/", "/level", "/registration", "/**").permitAll()
+                    .antMatchers("/", "/index", "/registration", "/static/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()
                //     .defaultSuccessUrl("/main")
-                    .loginPage("/login").permitAll()
+                   // .loginPage("/login").permitAll()
                 .and()
                 .logout().permitAll()
                 .and()
-                .csrf().and().cors().disable();
+                .csrf().and().cors().disable()
+                .build();
     }
 
     @Bean

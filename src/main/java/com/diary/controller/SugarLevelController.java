@@ -1,17 +1,18 @@
 package com.diary.controller;
 
 import com.diary.model.SugarLevelRecord;
-import com.diary.service.SugarLevelService;
+import com.diary.service.impl.SugarLevelServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class SugarLevelController {
@@ -20,7 +21,7 @@ public class SugarLevelController {
     public final String TITLE_MAIN = "Дневник | Сахарный диабет";
 
     @Autowired
-    private SugarLevelService sugarLevelService;
+    private SugarLevelServiceImpl sugarLevelService;
 
     @GetMapping("/index")
     public String viewIndexPage(Model model) {
@@ -28,11 +29,31 @@ public class SugarLevelController {
         return "index";
     }
 
+    @GetMapping("/level/page{page}")
+    public String showAllSugarLevelRecordsWithPagesNext(Model model,
+                                                    @PathVariable(value = "page") int page,
+                                                    @RequestParam(defaultValue = "5") int size) {
+        Pageable paging = PageRequest.of(page - 1, size);
+
+        Page<SugarLevelRecord> pageRecords = sugarLevelService.getAllSugarLevelRecords(paging);
+        List<SugarLevelRecord> sugarRecordsList = pageRecords.getContent();
+
+        model.addAttribute(TITLE, "Страница");
+        model.addAttribute("sugarRecordsList", sugarRecordsList);
+        model.addAttribute("currentPage", pageRecords.getNumber() + 1);
+        model.addAttribute("totalItems", pageRecords.getTotalElements());
+        model.addAttribute("totalPages", pageRecords.getTotalPages());
+        model.addAttribute("pageSize", size);
+
+        return "main_page";
+    }
+
+
     // display list of sugar level
-    @GetMapping("/level")
-    public String viewHomePage(Model model) {
+    @GetMapping("/level1")
+    public String showAllSugarLevelRecords(Model model) {
         model.addAttribute(TITLE, TITLE_MAIN);
-        model.addAttribute("listSugarLevelRecord", sugarLevelService.getAllSugarLevelRecord());
+        model.addAttribute("listSugarLevelRecord", sugarLevelService.getAllSugarLevelRecords(Pageable.unpaged()));
         return "main";
     }
 
@@ -53,7 +74,7 @@ public class SugarLevelController {
         // save sugarLevelRecord to database
         sugarLevelService.saveSugarLevelRecord(sugarLevelRecord);
 
-        return "redirect:/level";
+        return "redirect:/level/page1";
     }
 
     @GetMapping("/showFormForUpdate/{id}")
