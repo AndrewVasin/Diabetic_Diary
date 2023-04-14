@@ -17,7 +17,7 @@
 <header th:insert="blocks/header.html :: header"></header>
 
 <div class="container my-2">
-    <h3>Уровень сахара</h3>
+    <h4>Уровень сахара</h4>
     <hr>
     <a th:href="@{/showNewSugarLevelRecordForm}" class="btn btn-primary btn-sm mb-3"> Добавить значение </a>
 
@@ -32,7 +32,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="SugarLevelRecord : ${listSugarLevelRecord}">
+        <tr th:each="SugarLevelRecord : ${sugarRecordsList}">
             <!-- форматирование вывода даты -->
             <td th:text="${#temporals.format(SugarLevelRecord.date, 'dd MMMM yyyy, HH:mm')}"></td>
             <!-- -------------------------- -->
@@ -45,7 +45,45 @@
         </tr>
         </tbody>
     </table>
+
+<!--    Пагинация                            -->
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-3">
+                Всего записей: [[${totalItems}]]
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage != 1}" th:href="@{'/level/page' + ${1}}">&lt;&lt;</a>
+                <span th:unless="${currentPage != 1}">&lt;&lt;</span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${(currentPage <= totalPages) && (currentPage > 1)}" th:href="@{'/level/page' + ${currentPage - 1}}">&lt;</a>
+                <span th:unless="${(currentPage <= totalPages) && (currentPage > 1)}">&lt;</span>
+            </div>
+
+            <div class="col-sm-2">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${currentPage != i}" th:href="@{'/level/page' + ${i}}">[[${i}]]</a>
+                    <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                </span>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/level/page' + ${currentPage + 1}}">></a>
+                <span th:unless="${currentPage < totalPages}">></span>
+            </div>
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/level/page' + ${totalPages}}">>></a>
+                <span th:unless="${currentPage < totalPages}">>></span>
+            </div>
+        </div>
+
+    </div>
+
+    <!--    Конец Пагинация                            -->
 </div>
+
 
 <footer th:insert="blocks/footer.html :: footer"></footer>
 </body>

@@ -1,4 +1,4 @@
-package com.diary.service;
+package com.diary.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

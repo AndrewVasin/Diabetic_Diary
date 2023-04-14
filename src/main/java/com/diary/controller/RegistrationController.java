@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
-import static com.diary.model.User.PRIVILEGES_COMMON;
+import static com.diary.model.UserRole.ROLE_USER;
 
 @Controller
 public class RegistrationController {
+
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/registration")
     public String registration() {
@@ -30,7 +35,7 @@ public class RegistrationController {
         }
 
         user.setIsActive(true);
-        user.setPrivileges(PRIVILEGES_COMMON);
+        user.setUserRole(ROLE_USER);
         userService.saveUser(user);
 
         return "redirect:/main";
