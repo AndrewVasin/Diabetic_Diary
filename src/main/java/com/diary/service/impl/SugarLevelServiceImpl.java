@@ -21,7 +21,7 @@ public class SugarLevelServiceImpl implements SugarLevelService {
     }
 
     public Page<SugarLevelRecord> getAllSugarLevelRecords(Pageable pageable) {
-        return sugarLevelRepository.findAll(pageable);
+        return this.sugarLevelRepository.findAll(pageable);
     }
 
     public void saveSugarLevelRecord(SugarLevelRecord SugarLevelRecord) {
@@ -29,7 +29,7 @@ public class SugarLevelServiceImpl implements SugarLevelService {
     }
 
     public SugarLevelRecord getSugarLevelRecordById(long id) {
-        Optional<SugarLevelRecord> optional = sugarLevelRepository.findById(id);
+        Optional<SugarLevelRecord> optional = this.sugarLevelRepository.findById(id);
         SugarLevelRecord sugarLevelRecord;
         if (optional.isPresent()) {
             sugarLevelRecord = optional.get();
