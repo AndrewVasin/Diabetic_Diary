@@ -26,7 +26,7 @@ public class SugarLevelController {
     @Autowired
     private SugarLevelServiceImpl sugarLevelService;
 
-    @GetMapping("/index")
+    @GetMapping(value = {"/", "/index"})
     public String viewIndexPage(Model model) {
         model.addAttribute(TITLE, TITLE_MAIN);
         return "index";
